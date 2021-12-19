@@ -1,10 +1,7 @@
-streamlit
-matplotlib
-numpy
-pandas
-yfinance
-Prophet
-datetime
-seaborn
-plotly
-
+fbprophet==0.7.1
+matplotlib==3.5.1
+numpy==1.21.3
+plotly==5.4.0
+seaborn==0.11.2
+streamlit==1.3.0
+yfinance==0.1.67
