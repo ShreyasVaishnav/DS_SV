@@ -2,21 +2,22 @@
 
 import streamlit as st
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot  as plt
 import seaborn as sns
 from datetime import date
 import yfinance as yf
 from fbprophet import Prophet
-from fbprophet.plot import plot_plotly
+from fbprophet.plot import plot, plot_plotly
 from plotly import graph_objs as go
 
-
+st.set_page_config(page_title = "Stock_Prediction", page_icon = ":bar_chart:", layout = "wide")
 
 START = "2015-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
-st.title("Stock Predicition Web_App")
+st.title(":bar_chart: Stock Predicition Web_App")
 st.subheader("Model : FBProphet")
+st.sidebar.text("Author: Shreyas Shashikant Vaishnav")
 st.sidebar.header("Stock_List")
 
 stocks = ("AAPL", "GOOGL", "MSFT", "GME", "TSLA")
@@ -24,6 +25,7 @@ stocks = ("AAPL", "GOOGL", "MSFT", "GME", "TSLA")
 selected_stocks = st.sidebar.selectbox("Select Dataset for Prediction", stocks)
 n_years = st.slider("Years of Prediction:", 1, 5)
 period = n_years * 365
+
 
 @st.cache
 
@@ -36,8 +38,15 @@ data_load_state = st.text("Load data...")
 data = load_data(selected_stocks)
 data_load_state.text("Loading data...DONE!")
 
-st.subheader('Unfiltered Data fetched from Yahoo Finance')
-st.write(data.tail())
+if st.checkbox("Show Data"):
+    st.subheader('Unfiltered Data fetched from Yahoo Finance')
+    st.write(data.tail())
+
+#ma100 = data.Close.rolling(100).mean()
+st.sidebar.write("Close")
+st.sidebar.line_chart(data.Close)
+#st.line_chart()
+
 
 def plot_raw_data():
     fig = go.Figure()
@@ -58,12 +67,12 @@ m.fit(df_train)
 future = m.make_future_dataframe(periods = period)
 forecast = m.predict(future)
 
-'''
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-st.sidebar.header("Model_Accuracy")
-R = r2_score(data.Close,forecast)
-st.sidebar(R)
-'''
+
+#from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+#st.sidebar.header("Model_Accuracy")
+#R = r2_score(data.Close,forecast)
+#st.sidebar(R)
+
 
 st.subheader('Forecast Data')
 st.write(forecast.tail())
