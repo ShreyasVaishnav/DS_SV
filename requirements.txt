@@ -2,3 +2,9 @@ streamlit
 matplotlib
 numpy
 pandas
+yfinance
+fbprophet
+Prophet
+datetime
+seaborn
+plotly
