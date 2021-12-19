@@ -8,3 +8,4 @@ Prophet
 datetime
 seaborn
 plotly
+pystan
